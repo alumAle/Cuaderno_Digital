@@ -1,20 +1,41 @@
-#include "alumnos.h"
-#include "usuarios.h"
-
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
+#include "Files/Configuracion/Config.h"
+static void bienvenida();
+static void despedida();
 
-int main (){
+void main(){
+	
+	int nConfiguraciones;
+	//IMPLEMENTACION DE FUNCIONES DE LOS MÓDULOS
+	Configuracion *Configuraciones;
 
-    //cargar_alumnos(&v_alumnos, &n_alumnos);
-	cargar_usuarios(&v_usuarios, &n_usuarios);
+	Configuraciones= getConfiguracion(nConfiguraciones);
 
-    //crear_alumno(&v_alumnos, &n_alumnos);
-    crear_usuario(&v_usuarios, &n_usuarios);
+	bienvenida();
+	//FALTAN TODOS LOS SETS Y EL MENÚ PARA ELEGIR SI ERES ADMIN O PROFESOR
+	setConfiguracion(Configuraciones, nConfiguraciones);
+	despedida();
+	
+	system("pause");
+}
 
-    //guardar_alumnos(v_alumnos, n_alumnos);
-	guardar_usuarios(v_usuarios, n_usuarios);
+//Cabecera: static void bienvenida
+//Precondicion: ninguna
+//Postcondición: muestra el mensaje de bienvenida
+static void bienvenida(){
+	printf("-------------------------------------\n");
+	printf("BIENVENIDO A TU CUARDERNO DIGITAL: \n");
+	printf("-------------------------------------\n");
+}
 
-    return 0;
+
+//Cabecera: static void despedida
+//Precondicion: se debe colocar despues del set(cuando los datos actualizados se guardan en los ficheros)
+//postcondicion: muestra el mensaje de despedida.
+static void despedida(){
+		printf("-------------------------------------\n");
+		printf("SALIENDO DEL CUARDENO, GUARDANDO DATOS...");
+		printf("\n-------------------------------------\n");
+		printf("\nGuardado completado\n");
 }
