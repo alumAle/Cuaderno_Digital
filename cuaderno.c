@@ -1,6 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "Files/Configuracion/Config.h"
+
+//DECLARACION DE FUNCIONES DEL MAIN
 static void bienvenida();
 static void despedida();
 
