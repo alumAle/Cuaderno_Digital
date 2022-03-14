@@ -7,6 +7,7 @@ typedef struct{
  int valorConfig; 
 }Configuracion;
 
+//FUNCIONES A UTILIZAR EN EL MÓDULO DE CONFIGURACION.
 Configuracion* getConfiguracion(int arraySize);
 void setConfiguracion(Configuracion* data, int i);
 void menuAdminConfiguracion(Configuracion** Configuraciones, int nConfiguraciones);
