@@ -1,8 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include "Files/Configuracion/Config.h"
-
-//DECLARACION DE FUNCIONES DEL MAIN
 static void bienvenida();
 static void despedida();
 
@@ -12,14 +11,20 @@ void main(){
 	//IMPLEMENTACION DE FUNCIONES DE LOS MÓDULOS
 	Configuracion *Configuraciones;
 
-	Configuraciones= getConfiguracion(nConfiguraciones);
+
+
+
+
+	Configuraciones= getConfiguracion(&nConfiguraciones);
+	setConfiguracion(Configuraciones, nConfiguraciones);
+
+
 
 	bienvenida();
-	//FALTAN TODOS LOS SETS Y EL MENÚ PARA ELEGIR SI ERES ADMIN O PROFESOR
-	setConfiguracion(Configuraciones, nConfiguraciones);
 	despedida();
 	
 	system("pause");
+	return 0;
 }
 
 //Cabecera: static void bienvenida
