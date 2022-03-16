@@ -88,12 +88,12 @@ void guardar_alumnos(alumnos *v_alumnos, int tam){
 }
 
 
-void crear_alumno(alumnos **v_alumnos, int *n_alumnos)
-{
+
+void crear_alumno(alumnos **v_alumnos, int *n_alumnos){
 
 
-        (*n_alumnos)++;                                                                        //incrementa en 1 el número de jugadores
-        *v_alumnos=realloc((alumnos *)(*v_alumnos),((*n_alumnos))*sizeof(alumnos));    //aumenta el tamaño del vector de forma dinámica
+        (*n_alumnos)++;
+        *v_alumnos=realloc((alumnos *)(*v_alumnos),((*n_alumnos))*sizeof(alumnos));
 
         puts("Introduzca la id del alumno (6 digitos):");
         fflush(stdin);
@@ -124,6 +124,82 @@ void crear_alumno(alumnos **v_alumnos, int *n_alumnos)
         fflush(stdin);
         fgets((*v_alumnos+(*n_alumnos)-1)->grupo,10,stdin);
         quitar_saltos((*v_alumnos+(*n_alumnos)-1)->grupo);
+}
+
+
+
+void listar_alumnos(alumnos *v_alumnos, int *n_alumnos){
+    int i;
+    printf("\nALUMNOS:\n\n");
+    for (i=0; i<*n_alumnos; i++)    //recorre el vector de usuarios y lo muestra en pantalla
+        printf("%s-%s\n", v_alumnos[i].id, v_alumnos[i].nombre);
+}
+
+
+
+void eliminar_alumno(alumnos **v_alumnos, int *n_alumnos){
+    int i=0, idborrar=0, auxid=0, error=1;
+
+    listar_alumnos(*v_alumnos, n_alumnos);
+
+    printf("Introduzca la id del usuario a eliminar: ");
+    scanf("%i", &idborrar);
+
+
+
+    while(i<*n_alumnos)
+    {
+        auxid = atoi((*v_alumnos+i)->id);
+        if((auxid-idborrar)==0)
+        {
+            while(i<*n_alumnos-1) //bucle para sobreescribir datos en el alumno a borrar, se reasignan las id para mantener el orden
+            {
+                strcpy((*v_alumnos+i)->id,(*v_alumnos+i+1)->id);
+                strcpy((*v_alumnos+i)->nombre,(*v_alumnos+i+1)->nombre);
+                strcpy((*v_alumnos+i)->direccion,(*v_alumnos+i+1)->direccion);
+                strcpy((*v_alumnos+i)->localidad,(*v_alumnos+i+1)->localidad);
+                strcpy((*v_alumnos+i)->curso,(*v_alumnos+i+1)->curso);
+                strcpy((*v_alumnos+i)->grupo,(*v_alumnos+i+1)->grupo);
+                i++;
+            }
+            (*n_alumnos)--;                                                                      //decrementa en 1 el número de alumnos
+            *v_alumnos=realloc((alumnos *)(*v_alumnos),((*n_alumnos))*sizeof(alumnos));      //disminuye el tamaño del vector de forma dinamica
+            error = 0;
+            puts("Alumno eliminado corretamente.");
+        }
+        else i++;
+    }
+    if (error == 1){
+        puts ("No existe ningun alumno con ese ID");
+    }
+}
+
+
+
+void mod_alumno(alumnos *v_alumnos, int *n_alumnos)          //el admin introduce la id del equipo que desea modificar e introduce los nuevos datos
+{
+    int idmod, auxid, i;
+
+    printf("Introduzca la id del equipo a modificar: ");
+    scanf("%i", &idmod);
+
+
+    for (i=0; i<*n_alumnos; i++){
+        auxid = atoi((*v_alumnos+i)->id);
+        if((auxid-idborrar)==0){
+
+                puts("Introduzca el nuevo nombre del equipo:");
+                fflush(stdin);
+                fgets(v_equipos[i-1].nombre,25,stdin);
+                quitar_saltos(v_equipos[i-1].nombre);
+
+                puts("Introduzca el nuevo nombre del equipo:");
+                fflush(stdin);
+                fgets(v_equipos[i-1].nombre,25,stdin);
+                quitar_saltos(v_equipos[i-1].nombre);
+
+            }
+    }
 
 
 }

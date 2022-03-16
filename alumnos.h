@@ -17,5 +17,7 @@ void cargar_alumnos (alumnos **, int *);
 void guardar_alumnos (alumnos *, int);
 
 void crear_alumno(alumnos **, int *);
+void eliminar_alumno(alumnos **, int *);
+void listar_alumnos(alumnos *, int *);
 
 #endif
