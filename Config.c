@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "Files/Configuracion/Config.h"
+#include "Config.h"
 #include <string.h>
 
 #define PatchConfig "Files/Configuracion/Config.txt"
@@ -15,13 +15,13 @@ Configuracion* getConfiguracion(int arraySize){
 	char c;
 	int lineas=1,i,size;
 	
-	if(( fich = fopen(PatchConfig, "r+"))== NULL){
-		printf("NO SE HA PODIDO ABRIR EL ARCHIVO DE CONFIGURACIÓN, SE VA A CREAR UNO NUEVO.\n");
+	if(fich=fopen(PatchConfig, "r+")==NULL){
+		printf("NO SE HA PODIDO ABRIR EL ARCHIVO DE CONFIGURACION, SE VA A CREAR UNO NUEVO.\n");
 	}
 	
 	else{
 	fseek(fich,0,SEEK_END);     //ponemos el puntero al inicio del fichero.
-	size=ftell(fich);			//guardamos el tamaño del fichero.
+	size=ftell(fich);			//guardamos el tamaÃ±o del fichero.
 	rewind(fich);		//ponemos de nuevo el puntero al inicio del fichero.
 		
 	while((c=fgetc(fich))!=EOF){ //contamos las lineas del fichero siempre y cuando este no se haya acabado
@@ -42,11 +42,11 @@ Configuracion* getConfiguracion(int arraySize){
 	for (i=0; i<=lineas; i++){
 		fscanf(fich, "%[^-]-%d\n",data[i].nombreConfig,&(data[i].valorConfig));
 	}
-	if(size==0) lineas =0; //si el tamaño del fichero es 0 pues no tendrá ninguna linea y por consiguiente estará vacío.
+	if(size==0) lineas =0; //si el tamaÃ±o del fichero es 0 pues no tendrÃ¡ ninguna linea y por consiguiente estarÃ¡ vacÃ­o.
 }
 	fclose(fich); 		//cerramos el fichero.
 
-	arraySize = lineas; // el tamaño del array es el numero de lineas.
+	arraySize = lineas; // el tamaÃ±o del array es el numero de lineas.
 	return data; //devuelve la estructura cargada con los elementos perfectamente.
 }
 
@@ -57,7 +57,7 @@ void setConfiguracion(Configuracion *data, int i){
 	FILE *fich;
 	int lineas;
 	
-	if((fich=fopen(PatchConfig, "w"))==NULL){
+	if((fich = fopen(PatchConfig, "w")) == NULL){
 		printf("ERROR, NO SE ENCUENTRA EL FICHERO.\n");
 	}
 	else{
@@ -72,31 +72,91 @@ void setConfiguracion(Configuracion *data, int i){
 }
 
 //cabecera void menuAdminConfig(Configuracion** Configs, int nConfigs);
-//precondicion recibe un array de tipo Configuracion inicializado y el tamaño del array
+//precondicion recibe un array de tipo Configuracion inicializado y el tamaÃ±o del array
 //postcondicion imprime por pantalla opciones de configracion para el admin
 void menuAdminConfig(Configuracion** Configuraciones, int nConfiguraciones){
 	int aux;
 	do{
-		printf("BIENVENIDO AL MENU DE CONFIGURACION\n\t1.-Ver Configuracion Actual\n\t2.-Editar Configuracion\n\t3.-Volver atras.\n ");
-		printf("Introduce que deseas hacer: ");
-		scanf("%d",&aux);
-		fflush(stdin);
-		
-		system("cls");
 		do{
+			printf("CONFIGURACION\n\t1.-Ver Configuracion Actual\n\t2.-Editar Configuracion\n\t3.-Volver al men%c anterior\n", 163);
+			printf("Introduzca que desea hacer: ");
+			scanf("%d",&aux);
+			fflush(stdin);
+		
+			system("cls");
+		
 			switch(aux){
 				case 1: listarConfiguracion(Configuraciones, nConfiguraciones);
 					system("pause");
 					break;
-				case 2: editarConfiguracion(&Configuraciones,nConfiguraciones);
+				case 2: editarConfiguracion(&Configuraciones, nConfiguraciones);
 					system("pause");
 					break;
-				case 3: 
-					break;
-				default: printf("ERROR, INTRODUZCA UNA OPCION VALIDA PORFAVOR: ");
+				case 3:
+					break;	
+				default: printf("Error, introduzca un valor v%clido: ", 160);
 					break;
 			}
 			system("cls");
-		}while(aux <1 || aux > 3);
-	}while(aux !=3);
+
+		}while (aux<1 || aux>3);
+	}while (aux !=3);
 }
+
+//cabecera void listarConfiguracion (Configuracion* Configuraciones, int nConfiguraciones)
+//precondicion recibe un array de tipo Configuracion ,inicializado, y el tamaÃƒÂ±o del array
+//poscondicion imprime las configuraciones actuales
+void listarConfiguracion (Configuracion* Configuraciones, int nConfiguraciones){
+    int i;
+    printf("CONFIGURACION ACTUAL\n");
+    for(i=0;i<nConfiguraciones;i++){
+        imprimeConfiguracion(Configuraciones[i]);
+    }
+}
+
+//cabecera void imprimeConfiguracion(Configuracion c)
+//precondicion recibe una configuracion c
+//poscondicion imprime por pantalla una configuracion c
+void imprimeConfiguracion(Configuracion c){
+   printf("\t%s: %.2d\n",c.nombreConfig, c.valorConfig);
+}
+
+//cabecera void editarConfiguracion(Configuracion* Configuraciones, int nConfiguraciones)
+//precondicion recibe un array de tipo Configuracion ,inicializado, y el tamaÃƒÂ±o del array
+//poscondicion imprime por pantalla el valor del nuevo parametro cambiado
+void editarConfiguracion(Configuracion** Configuraciones, int nConfiguraciones){
+	char nombre[30];
+	int i;
+	
+	listarConfiguracion(*Configuraciones, nConfiguraciones);
+	
+	printf("Introduzca el nombre del parametro a modificar: ");
+	scanf("%s", nombre);
+	fflush(stdin);
+	for(i=0;i<nConfiguraciones;i++){
+		if (strcmp ((*Configuraciones)[i].nombreConfig , nombre) ==0 ){
+			
+			printf("Introduzca el nuevo valor del par%cmetro %s: ",160, (*Configuraciones)[i].nombreConfig);
+			scanf("%d", &(*Configuraciones)[i].valorConfig);
+			fflush(stdin);
+			imprimeConfiguracion ((*Configuraciones)[i]);
+			i=nConfiguraciones+1;
+		} 
+    }
+	if (i==nConfiguraciones) printf("ERROR, no se ha encontrado ningun par%cmerto con ese nombre\n", 160);
+}
+
+//cabecera int valorConfig (Configuracion* c, int nC, char const *var)
+//precondicion recibe un array de configuraciones inicializado, el numero de lineas de ese array y una cadena de caracteres
+//poscondicion devuelve en un entero el valor que busques en concreto
+int valorConfig (Configuracion* c, int nC, char const *var){
+	int i, aux=0;
+	for(i=0;i<nC;i++){
+        if ((strcmp (c[i].nombreConfig , var)) == 0 ){
+        	aux=c[i].valorConfig;
+        	i=nC+1;
+		}
+    }
+    return aux;
+}
+
