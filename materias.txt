@@ -1,0 +1,6 @@
+0001-Matematicas Aplicadas a las Ciencias Sociales-MCS
+0002-Historia del Arte-HAR
+0003-Lengua Castellana y Literatura-LCL
+0004-Ingles-I
+0005-Dibujo Tecnico-DT
+0006-Biologia-B
