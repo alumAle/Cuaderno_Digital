@@ -74,13 +74,16 @@ void guardar_materias(materias *v_materias, int tam){
             }
             fprintf( fich, "%s-%s-%s", v_materias[i].id,v_materias[i].nombre,v_materias[i].abreviatura);
 
-    puts("Se ha guardado alumnos correctamente");
+    puts("Se ha guardado materias correctamente");
 
     }
 }
 
 
 void crear_materias(materias **v_materias, int *n_materias){
+
+        int i, flag=1;
+
         (*n_materias)++;
         *v_materias=realloc((materias *)(*v_materias),((*n_materias))*sizeof(materias));
 
@@ -89,7 +92,19 @@ void crear_materias(materias **v_materias, int *n_materias){
         fgets((*v_materias+(*n_materias)-1)->id,5,stdin);
         quitar_saltos((*v_materias+(*n_materias)-1)->id);
 
-        puts("Introduzca el nombre del alumno:");
+        for (i=0; i<(*n_materias-1); i++){
+            flag = strcmp(((*v_materias+(*n_materias)-1)->id), (*v_materias+i)->id);
+
+            if (flag == 0){
+                (*n_materias)--;
+                *v_materias=realloc((materias *)(*v_materias),((*n_materias))*sizeof(materias));
+                i=*n_materias;
+            }
+        }
+
+        if (flag!=0){
+
+        puts("Introduzca el nombre de la materia:");
         fflush(stdin);
         fgets((*v_materias+(*n_materias)-1)->nombre,51,stdin);
         quitar_saltos((*v_materias+(*n_materias)-1)->nombre);
@@ -98,6 +113,8 @@ void crear_materias(materias **v_materias, int *n_materias){
         fflush(stdin);
         fgets((*v_materias+(*n_materias)-1)->abreviatura,4,stdin);
         quitar_saltos((*v_materias+(*n_materias)-1)->abreviatura);
+        }
+        else puts("Ya existe una materia con esa ID");
 
 }
 

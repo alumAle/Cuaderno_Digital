@@ -91,6 +91,7 @@ void guardar_alumnos(alumnos *v_alumnos, int tam){
 
 void crear_alumno(alumnos **v_alumnos, int *n_alumnos){
 
+        int i, flag=1;
 
         (*n_alumnos)++;
         *v_alumnos=realloc((alumnos *)(*v_alumnos),((*n_alumnos))*sizeof(alumnos));
@@ -99,6 +100,18 @@ void crear_alumno(alumnos **v_alumnos, int *n_alumnos){
         fflush(stdin);
         fgets((*v_alumnos+(*n_alumnos)-1)->id,7,stdin);
         quitar_saltos((*v_alumnos+(*n_alumnos)-1)->id);
+
+        for (i=0; i<(*n_alumnos-1); i++){
+            flag = strcmp(((*v_alumnos+(*n_alumnos)-1)->id), (*v_alumnos+i)->id);
+
+            if (flag == 0){
+                (*n_alumnos)--;
+                *v_alumnos=realloc((alumnos *)(*v_alumnos),((*n_alumnos))*sizeof(alumnos));
+                i=*n_alumnos;
+            }
+        }
+
+        if (flag!=0){
 
         puts("Introduzca el nombre del alumno:");
         fflush(stdin);
@@ -124,6 +137,8 @@ void crear_alumno(alumnos **v_alumnos, int *n_alumnos){
         fflush(stdin);
         fgets((*v_alumnos+(*n_alumnos)-1)->grupo,10,stdin);
         quitar_saltos((*v_alumnos+(*n_alumnos)-1)->grupo);
+        }
+        else puts("Ya existe un alumno con ese ID");
 }
 
 
@@ -178,28 +193,57 @@ void eliminar_alumno(alumnos **v_alumnos, int *n_alumnos){
 
 void mod_alumno(alumnos *v_alumnos, int *n_alumnos)          //el admin introduce la id del equipo que desea modificar e introduce los nuevos datos
 {
-    int idmod, auxid, i;
-
-    printf("Introduzca la id del equipo a modificar: ");
+    int idmod, auxid, i, flag=1;
+    listar_alumnos(v_alumnos, n_alumnos);
+    printf("Introduzca la id del alumno a modificar: ");
     scanf("%i", &idmod);
 
 
     for (i=0; i<*n_alumnos; i++){
-        auxid = atoi((*v_alumnos+i)->id);
-        if((auxid-idborrar)==0){
+        auxid = atoi(v_alumnos[i].id);
+        if((auxid-idmod)==0){
 
-                puts("Introduzca el nuevo nombre del equipo:");
-                fflush(stdin);
-                fgets(v_equipos[i-1].nombre,25,stdin);
-                quitar_saltos(v_equipos[i-1].nombre);
+                flag=0;
 
-                puts("Introduzca el nuevo nombre del equipo:");
+                puts("Introduzca el nombre del alumno:");
                 fflush(stdin);
-                fgets(v_equipos[i-1].nombre,25,stdin);
-                quitar_saltos(v_equipos[i-1].nombre);
+                fgets(v_alumnos[i].nombre,21,stdin);
+                quitar_saltos(v_alumnos[i].nombre);
+
+                puts("Introduzca la direccion del alumno:");
+                fflush(stdin);
+                fgets(v_alumnos[i].direccion,31,stdin);
+                quitar_saltos(v_alumnos[i].direccion);
+
+                puts("Introduzca la localidad:");
+                fflush(stdin);
+                fgets(v_alumnos[i].localidad,31,stdin);
+                quitar_saltos(v_alumnos[i].localidad);
+
+                puts("Introduzca el curso del alumno:");
+                fflush(stdin);
+                fgets(v_alumnos[i].curso,31,stdin);
+                quitar_saltos(v_alumnos[i].curso);
+
+                puts("Introduzca el grupo:");
+                fflush(stdin);
+                fgets(v_alumnos[i].grupo,11,stdin);
+                quitar_saltos(v_alumnos[i].grupo);
 
             }
     }
+    if (flag==1) puts("No existe ningun alumno con ese id");
+
+}
 
 
+void datos_alumno(alumnos *v_alumnos, int *n_alumnos, char *id){
+    int flag=1, i;
+    for (i=0; i<(*n_alumnos); i++){
+            flag = strcmp(v_alumnos[i].id, id);
+
+            if (flag == 0){
+                printf("ID: %s \nNombre: %s \nDireccion: %s \nLocalidad: %s \nCurso y grupo: %s %s", v_alumnos[i].id, v_alumnos[i].nombre, v_alumnos[i].direccion, v_alumnos[i].localidad, v_alumnos[i].curso, v_alumnos[i].grupo);
+            }
+        }
 }
