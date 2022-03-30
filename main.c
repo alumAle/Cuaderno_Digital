@@ -2,25 +2,30 @@
 #include <stdlib.h>
 #include <string.h>
 #include "Files/Configuracion/Config.h"
+#include "Files/Usuarios/usuarios.h"
+#include "Files/Calificaciones/calificaciones.h"
 static void bienvenida();
 static void despedida();
 
 void main(){
 	
-	int nConfiguraciones;
+	int nConfiguraciones, nUsuarios, nCalificaciones;
 	//IMPLEMENTACION DE FUNCIONES DE LOS MÓDULOS
 	Configuracion *Configuraciones;
-
-
-
+	Usuario *usuarios;
+	Calificacion *calificaciones;
 
 
 	Configuraciones= getConfiguracion(&nConfiguraciones);
-	setConfiguracion(Configuraciones, nConfiguraciones);
-
-
-
+	usuarios = getUsuarios(&nUsuarios);
+	calificaciones = getCalificaciones(&nCalificaciones);
 	bienvenida();
+	
+	setConfiguracion(Configuraciones, nConfiguraciones);
+	setUsuarios(usuarios, nUsuarios);
+	setCalificaciones(calificaciones, nCalificaciones);
+
+
 	despedida();
 	
 	system("pause");
