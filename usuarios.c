@@ -87,19 +87,19 @@ void menuAdminUsuarios(Usuario** usuarios, int* nUsuarios){
 			switch(aux){
 				case 1:	system("cls");
 						printf("LISTADO DE USUARIOS\n");
-				 		listarUsuarios(*usuarios, *nUsuarios);
+				 		listarUsuarios(*usuarios, *nUsuarios);//lista todos los usuarios del sistema
 						system("pause");
 					break;
 				case 2:	system("cls");
-						modificarUsuario(&*usuarios, *nUsuarios);
+						modificarUsuario(&*usuarios, *nUsuarios);//menu para modificar un usuario
 						system("pause");
 					break;
 				case 3:	system("cls");
-						addUsuario(&*usuarios, &*nUsuarios);
+						addUsuario(&*usuarios, &*nUsuarios);//menu para añadir un usuario
 						system("pause");
 					break;
 				case 4: system("cls");
-						eliminarUsuario(&*usuarios, &*nUsuarios);
+						eliminarUsuario(&*usuarios, &*nUsuarios);//menu para eliminar un usuario
 						system("pause");
 					break;
 				case 5:			// vuelve a el menu anterior
@@ -109,7 +109,7 @@ void menuAdminUsuarios(Usuario** usuarios, int* nUsuarios){
 			}
 		}while (aux<1 || aux>5); // Si no es un valor valido se repite el switch hasta que se introduzca uno entre el rango de opciones	
 			system("cls");
-	}while(aux!=5); //Si el usuario introduce 1 se reinicia el menu para seguir usando el programa.
+	}while(aux!=5);
 }
 
 //cabecera void listarUsuarios(Usuarios *data, int arraySize);
@@ -138,7 +138,6 @@ void imprimeUsuario(Usuario u){
 // Postcondicion permite añadir un usuario
 void addUsuario(Usuario** usuarios, int* nUsuarios){
 	int i, idUsuario=0;
-	char nombre[21];
 	
 	printf("A%cADIR USUARIO\n\n", 165);
 	
