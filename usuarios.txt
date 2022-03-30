@@ -1,0 +1,5 @@
+001-Juan Perez-administrador-admin-jp123456
+002-Guillermo Gomez-profesor-prof1-gg125431
+003-Manuel Lopez-profesor-prof2-ml909876
+004-Alejandro Garcia-administrador-alegs-12345678
+005-I¤igo Montoya-profesor-mosto-qwerasdf
