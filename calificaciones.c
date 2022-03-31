@@ -33,7 +33,7 @@ Calificacion* getCalificaciones(int *arraySize){
 	//que contiene el fichero.
 	
 	if((data=(Calificacion*)(malloc(lineas * sizeof(Calificacion)))) == NULL){
-		printf("ERROR EN EL FALLO DE LA RESERVA DE MEMORIA PARA LA ESTRUCTURA USUARIOS.\n");
+		printf("ERROR EN EL FALLO DE LA RESERVA DE MEMORIA PARA LA ESTRUCTURA CALIFICACIONES.\n");
 	}
 	
 	//LEEMOS EL FICHERO Y CARGAMOS LA ESTRUCTURA DINAMICA (YA INICIALIZADA CORRECTAMENTE) CON LOS DATOS DE USUARIOS.
