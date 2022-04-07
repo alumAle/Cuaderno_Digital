@@ -36,7 +36,7 @@ FILE *fichero;          //Creamos el objeto para guardar el contenido del ficher
                 *v_materias=realloc((materias *)(*v_materias),((*n)+1)*sizeof(materias));           //modificamos el struct dinámicamente para hacer sitio a los datos que entran en cada iteración del bucle
 
                 token=strtok(linea,"-");
-                strcpy((*v_materias)[*n].id,token);
+                (*v_materias)[*n].id=atoi(token);
 
                 token=strtok(NULL,"-");
                 strcpy((*v_materias)[*n].nombre,token);
@@ -69,10 +69,10 @@ void guardar_materias(materias *v_materias, int tam){
         else{
             while( i < tam-1 )
             {
-                fprintf( fich, "%s-%s-%s\n", v_materias[i].id,v_materias[i].nombre,v_materias[i].abreviatura);
+                fprintf( fich, "%.4d-%s-%s\n", v_materias[i].id,v_materias[i].nombre,v_materias[i].abreviatura);
                 i++;
             }
-            fprintf( fich, "%s-%s-%s", v_materias[i].id,v_materias[i].nombre,v_materias[i].abreviatura);
+            fprintf( fich, "%.4d-%s-%s", v_materias[i].id,v_materias[i].nombre,v_materias[i].abreviatura);
 
     puts("Se ha guardado materias correctamente");
 
@@ -82,27 +82,12 @@ void guardar_materias(materias *v_materias, int tam){
 
 void crear_materias(materias **v_materias, int *n_materias){
 
-        int i, flag=1;
 
         (*n_materias)++;
         *v_materias=realloc((materias *)(*v_materias),((*n_materias))*sizeof(materias));
 
-        puts("Introduzca la id de la materia (4 digitos):");
-        fflush(stdin);
-        fgets((*v_materias+(*n_materias)-1)->id,5,stdin);
-        quitar_saltos((*v_materias+(*n_materias)-1)->id);
+        (*v_materias+(*n_materias)-1)->id = *n_materias;
 
-        for (i=0; i<(*n_materias-1); i++){
-            flag = strcmp(((*v_materias+(*n_materias)-1)->id), (*v_materias+i)->id);
-
-            if (flag == 0){
-                (*n_materias)--;
-                *v_materias=realloc((materias *)(*v_materias),((*n_materias))*sizeof(materias));
-                i=*n_materias;
-            }
-        }
-
-        if (flag!=0){
 
         puts("Introduzca el nombre de la materia:");
         fflush(stdin);
@@ -113,8 +98,7 @@ void crear_materias(materias **v_materias, int *n_materias){
         fflush(stdin);
         fgets((*v_materias+(*n_materias)-1)->abreviatura,4,stdin);
         quitar_saltos((*v_materias+(*n_materias)-1)->abreviatura);
-        }
-        else puts("Ya existe una materia con esa ID");
+
 
 }
 
@@ -123,12 +107,12 @@ void listar_materias(materias *v_materias, int *n_materias){
     int i;
     printf("\nMATERIAS:\n\n");
     for (i=0; i<*n_materias; i++)    //recorre el vector de usuarios y lo muestra en pantalla
-        printf("%s-%s\n", v_materias[i].id, v_materias[i].nombre);
+        printf("%.4d-%s\n", v_materias[i].id, v_materias[i].nombre);
 }
 
 
 void eliminar_materias(materias **v_materias, int *n_materias){
-    int i=0, idborrar=0, auxid=0, error=1;
+    int idborrar=0, i=0, error=1;
 
     listar_materias(*v_materias, n_materias);
 
@@ -139,12 +123,11 @@ void eliminar_materias(materias **v_materias, int *n_materias){
 
     while(i<*n_materias)
     {
-        auxid = atoi((*v_materias+i)->id);
-        if((auxid-idborrar)==0)
+        if(((*v_materias+i)->id)== idborrar)
         {
             while(i<*n_materias-1) //bucle para sobreescribir datos en el alumno a borrar, se reasignan las id para mantener el orden
             {
-                strcpy((*v_materias+i)->id,(*v_materias+i+1)->id);
+                ((*v_materias+i)->id = (*v_materias+i+1)->id);
                 strcpy((*v_materias+i)->nombre,(*v_materias+i+1)->nombre);
                 strcpy((*v_materias+i)->abreviatura,(*v_materias+i+1)->abreviatura);
                 i++;
@@ -152,11 +135,11 @@ void eliminar_materias(materias **v_materias, int *n_materias){
             (*n_materias)--;                                                                      //decrementa en 1 el número de materias
             *v_materias=realloc((materias *)(*v_materias),((*n_materias))*sizeof(materias));      //disminuye el tamaño del vector de forma dinamica
             error = 0;
-            puts("Alumno eliminado corretamente.");
+            puts("Materia eliminada corretamente.");
         }
         else i++;
     }
     if (error == 1){
-        puts ("No existe ningun alumno con ese ID");
+        puts ("No existe ninguna materia con ese ID");
     }
 }

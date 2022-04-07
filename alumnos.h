@@ -2,7 +2,7 @@
 #define _ALUMNOS_H_
 
 typedef struct{
-    char id[7];
+    int id;
     char nombre[21];
     char direccion[31];
     char localidad[31];
@@ -20,6 +20,6 @@ void crear_alumno(alumnos **, int *);
 void eliminar_alumno(alumnos **, int *);
 void listar_alumnos(alumnos *, int *);
 void mod_alumno(alumnos *, int *);
-void datos_alumno(alumnos *, int *, char *);
+void datos_alumno(alumnos *, int *, int);
 
 #endif

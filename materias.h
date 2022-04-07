@@ -3,7 +3,7 @@
 #define _MATERIAS_H_
 
 typedef struct{
-    char id[5];
+    int id;
     char nombre[51];
     char abreviatura[4];
 }materias;

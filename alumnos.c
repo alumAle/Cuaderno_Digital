@@ -36,7 +36,7 @@ FILE *fichero;          //Creamos el objeto para guardar el contenido del ficher
                 *v_alumnos=realloc((alumnos *)(*v_alumnos),((*n)+1)*sizeof(alumnos));           //modificamos el struct dinámicamente para hacer sitio a los datos que entran en cada iteración del bucle
 
                 token=strtok(linea,"-");
-                strcpy((*v_alumnos)[*n].id,token);
+                (*v_alumnos)[*n].id=atoi(token);
 
                 token=strtok(NULL,"-");
                 strcpy((*v_alumnos)[*n].nombre,token);
@@ -77,10 +77,10 @@ void guardar_alumnos(alumnos *v_alumnos, int tam){
         else{
             while( i < tam-1 )
             {
-                fprintf( fich, "%s-%s-%s-%s-%s-%s\n", v_alumnos[i].id,v_alumnos[i].nombre,v_alumnos[i].direccion,v_alumnos[i].localidad,v_alumnos[i].curso,v_alumnos[i].grupo);
+                fprintf( fich, "%.6d-%s-%s-%s-%s-%s\n", v_alumnos[i].id,v_alumnos[i].nombre,v_alumnos[i].direccion,v_alumnos[i].localidad,v_alumnos[i].curso,v_alumnos[i].grupo);
                 i++;
             }
-            fprintf( fich, "%s-%s-%s-%s-%s-%s", v_alumnos[i].id,v_alumnos[i].nombre,v_alumnos[i].direccion,v_alumnos[i].localidad,v_alumnos[i].curso,v_alumnos[i].grupo);
+            fprintf( fich, "%.6d-%s-%s-%s-%s-%s", v_alumnos[i].id,v_alumnos[i].nombre,v_alumnos[i].direccion,v_alumnos[i].localidad,v_alumnos[i].curso,v_alumnos[i].grupo);
 
     puts("Se ha guardado alumnos correctamente");
 
@@ -91,27 +91,27 @@ void guardar_alumnos(alumnos *v_alumnos, int tam){
 
 void crear_alumno(alumnos **v_alumnos, int *n_alumnos){
 
-        int i, flag=1;
+        int i, flag=1, aux;
 
         (*n_alumnos)++;
         *v_alumnos=realloc((alumnos *)(*v_alumnos),((*n_alumnos))*sizeof(alumnos));
 
         puts("Introduzca la id del alumno (6 digitos):");
-        fflush(stdin);
-        fgets((*v_alumnos+(*n_alumnos)-1)->id,7,stdin);
-        quitar_saltos((*v_alumnos+(*n_alumnos)-1)->id);
+        scanf("%d", &aux);
 
         for (i=0; i<(*n_alumnos-1); i++){
-            flag = strcmp(((*v_alumnos+(*n_alumnos)-1)->id), (*v_alumnos+i)->id);
 
-            if (flag == 0){
+            if (aux == ((*v_alumnos+i)->id)){
                 (*n_alumnos)--;
                 *v_alumnos=realloc((alumnos *)(*v_alumnos),((*n_alumnos))*sizeof(alumnos));
                 i=*n_alumnos;
+                flag = 0;
             }
         }
 
         if (flag!=0){
+
+        ((*v_alumnos+(*n_alumnos)-1)->id) = aux;
 
         puts("Introduzca el nombre del alumno:");
         fflush(stdin);
@@ -147,29 +147,28 @@ void listar_alumnos(alumnos *v_alumnos, int *n_alumnos){
     int i;
     printf("\nALUMNOS:\n\n");
     for (i=0; i<*n_alumnos; i++)    //recorre el vector de usuarios y lo muestra en pantalla
-        printf("%s-%s\n", v_alumnos[i].id, v_alumnos[i].nombre);
+        printf("%.6d-%s\n", v_alumnos[i].id, v_alumnos[i].nombre);
 }
 
 
 
 void eliminar_alumno(alumnos **v_alumnos, int *n_alumnos){
-    int i=0, idborrar=0, auxid=0, error=1;
+    int i=0, idborrar=0, error=1;
 
     listar_alumnos(*v_alumnos, n_alumnos);
 
     printf("Introduzca la id del usuario a eliminar: ");
-    scanf("%i", &idborrar);
+    scanf("%d", &idborrar);
 
 
 
     while(i<*n_alumnos)
     {
-        auxid = atoi((*v_alumnos+i)->id);
-        if((auxid-idborrar)==0)
+        if((idborrar == ((*v_alumnos+i)->id)))
         {
             while(i<*n_alumnos-1) //bucle para sobreescribir datos en el alumno a borrar, se reasignan las id para mantener el orden
             {
-                strcpy((*v_alumnos+i)->id,(*v_alumnos+i+1)->id);
+                ((*v_alumnos+i)->id = (*v_alumnos+i+1)->id);
                 strcpy((*v_alumnos+i)->nombre,(*v_alumnos+i+1)->nombre);
                 strcpy((*v_alumnos+i)->direccion,(*v_alumnos+i+1)->direccion);
                 strcpy((*v_alumnos+i)->localidad,(*v_alumnos+i+1)->localidad);
@@ -193,15 +192,14 @@ void eliminar_alumno(alumnos **v_alumnos, int *n_alumnos){
 
 void mod_alumno(alumnos *v_alumnos, int *n_alumnos)          //el admin introduce la id del equipo que desea modificar e introduce los nuevos datos
 {
-    int idmod, auxid, i, flag=1;
+    int idmod, i, flag=1;
     listar_alumnos(v_alumnos, n_alumnos);
     printf("Introduzca la id del alumno a modificar: ");
-    scanf("%i", &idmod);
+    scanf("%d", &idmod);
 
 
     for (i=0; i<*n_alumnos; i++){
-        auxid = atoi(v_alumnos[i].id);
-        if((auxid-idmod)==0){
+        if((idmod)== v_alumnos[i].id){
 
                 flag=0;
 
@@ -237,13 +235,12 @@ void mod_alumno(alumnos *v_alumnos, int *n_alumnos)          //el admin introduc
 }
 
 
-void datos_alumno(alumnos *v_alumnos, int *n_alumnos, char *id){
-    int flag=1, i;
+void datos_alumno(alumnos *v_alumnos, int *n_alumnos, int id){
+    int i;
     for (i=0; i<(*n_alumnos); i++){
-            flag = strcmp(v_alumnos[i].id, id);
 
-            if (flag == 0){
-                printf("ID: %s \nNombre: %s \nDireccion: %s \nLocalidad: %s \nCurso y grupo: %s %s", v_alumnos[i].id, v_alumnos[i].nombre, v_alumnos[i].direccion, v_alumnos[i].localidad, v_alumnos[i].curso, v_alumnos[i].grupo);
+            if (v_alumnos[i].id == id){
+                printf("ID: %.6d \nNombre: %s \nDireccion: %s \nLocalidad: %s \nCurso y grupo: %s %s", v_alumnos[i].id, v_alumnos[i].nombre, v_alumnos[i].direccion, v_alumnos[i].localidad, v_alumnos[i].curso, v_alumnos[i].grupo);
             }
         }
 }
