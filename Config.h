@@ -1,26 +1,17 @@
 #include <stdio.h>
-#ifndef HORARIOS
-#define HORARIOS
+#ifndef CONFIGS
+#define CONFIGS
 
 typedef struct{
-  int id_prof;
-  int dia;
-  int hora;
-  int id_mat;
-  char grupo[11];
-}Horario;
+ char nombreConfig[30];
+ int valorConfig; 
+}Configuracion;
 
-Horario* getHorarios(int *arraySize);
-void setHorarios(Horario* data, int i);
-void crearhorario(Horario** Horarios, int *nHorarios,int id_prof);
-void eliminarHorario(Horario** Horarios, int *nHorarios, int id_prof);
-void modificarHorarioProfe(Horario** Horarios, int nHorarios, int id_prof);
-void imprimeHorario(Horario *h , int );
-void listarHorarioProfe(Horario* Horarios, int nHorarios, int id_prof);
-void cambiarId(int id, Horario** Horarios);
-void cambiarDia(int id, Horario** Horarios);
-void cambiarHora(int id, Horario** Horarios);
-void cambiarMat(int id, Horario** Horarios);
-void cambiarGrupo(int id, Horario** Horarios);
-
-#endif // !HORARIO
+Configuracion* getConfiguracion(int *arraySize);
+void setConfiguracion(Configuracion* data, int i);
+void listarConfiguracion (Configuracion* Configuraciones, int nConfiguraciones);
+void editarConfiguracion(Configuracion** Configuraciones, int nConfiguraciones);
+void menuAdminConfiguracion(Configuracion** Configuraciones, int nConfiguraciones);
+int valorConfig (Configuracion* c, int nC, char const *var);
+void imprimeConfiguracion(Configuracion *, int );
+#endif // !CONFIGS
